@@ -6,7 +6,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(cors({
-    origin: "https://github.com/GRIDFLOCK/singup.git"
+    origin: "https://gridflock.github.io/singup"
 }));
 
 app.use(bodyParser.json());
@@ -47,6 +47,7 @@ app.post("/register", (req, res) => {
 app.get("/", (req, res) => {
     res.send("Server is running");
 });
+
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
