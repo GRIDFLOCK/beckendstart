@@ -1,6 +1,9 @@
 import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
+import fs from "fs";
+
+const filePath = "./users.json";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -13,7 +16,19 @@ app.use(cors({
 
 app.use(bodyParser.json());
 
-const users = [];
+
+
+function loadUsers() {
+    if (fs.existsSync(filePath)) {
+        fs.writeFileSync(filePath, JSON.stringify([]));
+    }
+    const data = fs.readFileSync(filePath);
+    return JSON.parse(data);
+}
+
+function saveUsers(users) {
+    fs.writeFileSync(filePath, JSON.stringify(users, null, 2));
+}
 
 function isValidEmail(email) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -24,6 +39,8 @@ function isValidPassword(password) {
     const passwordRegex =  /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
     return passwordRegex.test(password);
 }
+
+let users = loadUsers();
 
 app.post("/register", (req, res) => {
     const { email, password} = req.body;
@@ -44,7 +61,7 @@ app.post("/register", (req, res) => {
     console.log("Registered users:", email);
 
     res.json({ success: true, message: "Користувача успішно зареєстровано!"});
-
+    saveUsers(users);
 });
 app.get("/", (req, res) => {
     res.send("Server is running");
