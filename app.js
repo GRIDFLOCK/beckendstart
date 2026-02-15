@@ -72,7 +72,7 @@ app.get("/", (req, res) => {
     res.send("Server is running");
 });
 app.get("/users", (req, res) => {
-    res,json(users);
+    res.json(users);
 })
 
 
