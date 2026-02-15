@@ -70,8 +70,10 @@ app.post("/register", (req, res) => {
 });
 app.get("/", (req, res) => {
     res.send("Server is running");
-    res.json(users);
 });
+app.get("/users", (req, res) => {
+    res,json(users);
+})
 
 
 app.listen(PORT, () => {
