@@ -23,10 +23,11 @@ app.use(bodyParser.json());
 
 
 function loadUsers() {
-    if (fs.existsSync(filePath)) {
+    if (!fs.existsSync(filePath)) {
         fs.writeFileSync(filePath, JSON.stringify([]));
+        return [];
     }
-    const data = fs.readFileSync(filePath);
+    const data = fs.readFileSync(filePath, "utf-8");
     return JSON.parse(data);
 }
 
@@ -63,9 +64,9 @@ app.post("/register", (req, res) => {
     users.push({ email, password});
 
     console.log("Registered users:", email);
-
-    res.json({ success: true, message: "Користувача успішно зареєстровано!"});
     saveUsers(users);
+    res.json({ success: true, message: "Користувача успішно зареєстровано!"});
+    
 });
 app.get("/", (req, res) => {
     res.send("Server is running");
