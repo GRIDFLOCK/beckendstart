@@ -2,9 +2,12 @@ import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
 import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
 
-const filePath = "./users.json";
-
+const filePath = path.join(__dirname, "users.json");
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3000;
 
